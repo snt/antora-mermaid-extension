@@ -1,0 +1,13 @@
+{
+  "name": "@sntke/antora-mermaid-extension",
+  "version": "0.0.1",
+  "description": "Mermaid extension for Antora",
+  "main": "lib/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snt/antora-mermaid-extension.git"
+  },
+  "keywords": ["antora","extension","mermaid","diagram"],
+  "author": "Kentaro Shinto (https://github.com/snt)",
+  "license": "MIT"
+}
