@@ -11,13 +11,13 @@ autonumber
 participant a as Alice
 participant b as Bob
 
-a ->>+ b : Hello
+a ->>+ b : Hello.
 b -->>- a : Hi, there.
 ....
 ```
 
 *Better privacy*:
-This extension uses `mermaid.min.js` to render Mermaid diagram.
+This extension uses `mermaid.min.js` to convert mermaid diagram text on HTML into SVG.
 So the diagram texts won't be sent to anywhere to create image files.
 
 ## Configuration
@@ -40,9 +40,11 @@ antora:
     - require: '@sntke/antora-mermaid-extension' # <1>
       mermaid_library_url: https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js # <2>
       script_stem: header-scripts # <3>
+      mermaid_initialize_options: "{ startOnLoad: true }" #<4>
+
 ```
 
 * <1> `npm` package name: `@sntke/antora-mermaid-extension` (required)
-* <2> URL of Mermaid.js library (optional, default value is shown)
-* <3> Stem that exists in the handlebar templates of UI bundle where HTML script element for `mermaid.js` is placed. (optional, default value is shown)
-
+* <2> URL of Mermaid.js library (optional)
+* <3> Stem that exists in the handlebar templates of UI bundle where HTML script element for `mermaid.js` is placed. (optional)
+* <4> The argument to mermaid.initialize(). (optional)

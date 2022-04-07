@@ -1,6 +1,6 @@
 {
   "name": "@sntke/antora-mermaid-extension",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Mermaid extension for Antora",
   "main": "lib/extension.js",
   "repository": {
@@ -13,6 +13,14 @@
     "mermaid",
     "diagram"
   ],
+  "scripts": {
+    "test": "jest"
+  },
   "author": "Kentaro Shinto (https://github.com/snt)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@asciidoctor/core": "^2.2.6",
+    "cheerio": "^1.0.0-rc.10",
+    "jest": "^27.5.1"
+  }
 }
