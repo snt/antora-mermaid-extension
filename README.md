@@ -16,6 +16,23 @@ b -->>- a : Hi, there.
 ....
 ```
 
+You can also specify `width` and `height` of outer `div` of `svg` like:
+
+```asciidoc
+[mermaid,width=100%]
+....
+sequenceDiagram
+autonumber
+
+participant a as Alice
+participant b as Bob
+
+a ->>+ b : Hello.
+b -->>- a : Hi, there.
+....
+```
+
+
 *Better privacy*:
 This extension uses `mermaid.min.js` to convert mermaid diagram text on HTML into SVG.
 So the diagram texts won't be sent to anywhere to create image files.
