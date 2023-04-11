@@ -1,6 +1,10 @@
 # Antora Mermaid Extension
 
-This extension visualizes [Listing Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/listing-blocks/) and [Literal Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/literal-blocks/) of [Mermaid](https://mermaid-js.github.io/mermaid/#/) on HTML files.
+**NOTE: Migration to 0.0.4 might require you to update to `antora-playbook.yaml`. See [Migration to 0.0.4](#migration-to-004).**
+
+This extension visualizes [Listing Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/listing-blocks/)
+and [Literal Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/literal-blocks/)
+of [Mermaid](https://mermaid-js.github.io/mermaid/#/) on HTML files.
 
 ```asciidoc
 [mermaid]
@@ -32,7 +36,6 @@ b -->>- a : Hi, there.
 ....
 ```
 
-
 *Better privacy*:
 This extension uses `mermaid.min.js` to convert mermaid diagram text on HTML into SVG.
 So the diagram texts won't be sent to anywhere to create image files.
@@ -55,7 +58,7 @@ Append following in your `antora-playbook.yaml`:
 antora:
   extensions:
     - require: '@sntke/antora-mermaid-extension' # <1>
-      mermaid_library_url: https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js # <2>
+      mermaid_library_url: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs # <2>
       script_stem: header-scripts # <3>
       mermaid_initialize_options: "{ startOnLoad: true }" #<4>
 
@@ -65,3 +68,10 @@ antora:
 * <2> URL of Mermaid.js library (optional)
 * <3> Stem that exists in the handlebar templates of UI bundle where HTML script element for `mermaid.js` is placed. (optional)
 * <4> The argument to mermaid.initialize(). (optional)
+
+## Migration to 0.0.4
+
+If you set `.antora.extensions[].mermaid_library_url` in `antora-playbook.yaml`, update the value to use `mermaid@10`.
+
+`antora-mermaid-extension@0.0.4` uses [`mermaid@10`](https://github.com/mermaid-js/mermaid/releases/tag/v10.0.0) which
+have dropped CJS support. 
