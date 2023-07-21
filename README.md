@@ -60,7 +60,8 @@ antora:
     - require: '@sntke/antora-mermaid-extension' # <1>
       mermaid_library_url: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs # <2>
       script_stem: header-scripts # <3>
-      mermaid_initialize_options: "{ startOnLoad: true }" #<4>
+      mermaid_initialize_options: # <4>
+        start_on_load: true
 
 ```
 
@@ -68,6 +69,8 @@ antora:
 * <2> URL of Mermaid.js library (optional)
 * <3> Stem that exists in the handlebar templates of UI bundle where HTML script element for `mermaid.js` is placed. (optional)
 * <4> The argument to mermaid.initialize(). (optional)
+      Make sure to convert the Mermaid config keys to snake case, e.g., `startOnLoad` -> `start_on_load` or `themeVariables` -> `theme_variables`.
+      Refer to [the Antora docs](https://docs.antora.org/antora/latest/extend/configure-extension/#configuration-key-transformation) for details.
 
 ## Migration to 0.0.4
 
