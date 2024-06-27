@@ -1,4 +1,4 @@
-import test, {describe, it} from "node:test"
+import test, { describe, it } from "node:test"
 import { ok, strictEqual } from "node:assert"
 
 import asciidoctor from 'asciidoctor'
