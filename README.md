@@ -1,6 +1,6 @@
 # Antora Mermaid Extension
 
-**NOTE: Migration to 0.0.4 might require you to update to `antora-playbook.yaml`. See [Migration to 0.0.4](#migration-to-004).**
+**NOTE: Migration to 0.0.4 and newer might require you to update to `antora-playbook.yaml`. See [Migration to 0.0.4](#migration-to-004).**
 
 This extension visualizes [Listing Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/listing-blocks/)
 and [Literal Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/literal-blocks/)
@@ -72,7 +72,7 @@ antora:
       Make sure to convert the Mermaid config keys to snake case, e.g., `startOnLoad` -> `start_on_load` or `themeVariables` -> `theme_variables`.
       Refer to [the Antora docs](https://docs.antora.org/antora/latest/extend/configure-extension/#configuration-key-transformation) for details.
 
-## Migration to 0.0.4
+## Migration to 0.0.4 and newer
 
 If you set `.antora.extensions[].mermaid_library_url` in `antora-playbook.yaml`, update the value to use `mermaid@10`.
 
