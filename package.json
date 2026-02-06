@@ -1,6 +1,6 @@
 {
   "name": "@sntke/antora-mermaid-extension",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Mermaid extension for Antora",
   "main": "lib/extension.js",
   "repository": {
@@ -20,6 +20,6 @@
   "license": "MIT",
   "devDependencies": {
     "asciidoctor": "^3.0.4",
-    "cheerio": "^1.0.0-rc.10"
+    "cheerio": "^1.2.0"
   }
 }
