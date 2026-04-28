@@ -1,6 +1,6 @@
 {
   "name": "@sntke/antora-mermaid-extension",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Mermaid extension for Antora",
   "main": "lib/extension.js",
   "repository": {

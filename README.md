@@ -1,6 +1,6 @@
 # Antora Mermaid Extension
 
-**NOTE: Migration to 0.0.4 and newer might require you to update to `antora-playbook.yaml`. See [Migration to 0.0.4](#migration-to-004).**
+**NOTE: Migration to 0.0.4 and newer might require you to update to `antora-playbook.yaml`. See [Migration to 0.0.4](#migration-to-004-and-newer).**
 
 This extension visualizes [Listing Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/listing-blocks/)
 and [Literal Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/literal-blocks/)
@@ -71,6 +71,19 @@ antora:
 * <4> The argument to mermaid.initialize(). (optional)
       Make sure to convert the Mermaid config keys to snake case, e.g., `startOnLoad` -> `start_on_load` or `themeVariables` -> `theme_variables`.
       Refer to [the Antora docs](https://docs.antora.org/antora/latest/extend/configure-extension/#configuration-key-transformation) for details.
+
+If you have a special need to specify the argument to `mermaid.initialize(argument)`, use `mermaid_initialize_options_raw_text_override` instead of `mermaid_initialize_options`.
+Its value is placed between `mermaid.initialize(` and `)` as-is. So you would set `antora-playbook.yaml` like this:
+
+```yaml
+antora:
+  extensions:
+    - require: '@sntke/antora-mermaid-extension'
+      script_stem: header-scripts
+      mermaid_initialize_options_raw_text_override: '{"startOnLoad":true, "theme":"dark", "postRenderCallback": mermaidPostRender }'
+```
+
+Note: You must quote the entire JSON string with single quotes to avoid being parsed as JSON in YAML.
 
 ## Migration to 0.0.4 and newer
 
