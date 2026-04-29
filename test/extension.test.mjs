@@ -72,20 +72,13 @@ describe('mermaidInitializeOptionsRawTextOverride behavior', () => {
         const context = {
             on: (eventName, handler) => {
                 events[eventName] = handler
-            }
+            },
+            getLogger: () => ({
+                warn: (message) => warns.push(message)
+            }),
         }
-        const originalGetLogger = extension.getLogger
-        extension.getLogger = () => ({
-            warn: (message) => warns.push(message)
-        })
 
         extension.register(context, { config })
-
-        if (originalGetLogger) {
-            extension.getLogger = originalGetLogger
-        } else {
-            delete extension.getLogger
-        }
 
         const uiCatalog = createUiCatalog()
         events.uiLoaded({ uiCatalog })
