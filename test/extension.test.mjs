@@ -54,38 +54,39 @@ stateDiagram-v2
     })
 });
 
+const createUiCatalog = () => {
+    const addedFiles = []
+    return {
+        addedFiles,
+        findByType: () => [],
+        addFile: (file) => {
+            addedFiles.push(file)
+        },
+    }
+}
+
+const executeUiLoaded = (config) => {
+    const events = {}
+    const warns = []
+    const context = {
+        on: (eventName, handler) => {
+            events[eventName] = handler
+        },
+        getLogger: () => ({
+            warn: (message) => warns.push(message),
+            info: () => {},
+        }),
+    }
+
+    extension.register(context, { config })
+
+    const uiCatalog = createUiCatalog()
+    events.uiLoaded({ uiCatalog })
+
+    return { uiCatalog, warns }
+}
+
 describe('mermaidInitializeOptionsRawTextOverride behavior', () => {
-    const createUiCatalog = () => {
-        const addedFiles = []
-        return {
-            addedFiles,
-            findByType: () => [],
-            addFile: (file) => {
-                addedFiles.push(file)
-            },
-        }
-    }
-
-    const executeUiLoaded = (config) => {
-        const events = {}
-        const warns = []
-        const context = {
-            on: (eventName, handler) => {
-                events[eventName] = handler
-            },
-            getLogger: () => ({
-                warn: (message) => warns.push(message)
-            }),
-        }
-
-        extension.register(context, { config })
-
-        const uiCatalog = createUiCatalog()
-        events.uiLoaded({ uiCatalog })
-
-        return { uiCatalog, warns }
-    }
-
     it('uses raw text override as initialize argument', () => {
         const raw = '{ startOnLoad: false, securityLevel: "strict" }'
         const { uiCatalog } = executeUiLoaded({
@@ -133,5 +134,52 @@ describe('mermaidInitializeOptionsRawTextOverride behavior', () => {
 
         const script = uiCatalog.addedFiles[0].contents.toString('utf8')
         ok(script.includes('mermaid.initialize({"startOnLoad":false,"securityLevel":"strict"});'))
+    })
+})
+
+describe('mermaidRunOptions behavior', () => {
+    it('does not add mermaid.run() call when neither option is set', () => {
+        const { uiCatalog } = executeUiLoaded({})
+
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(!script.includes('mermaid.run('))
+    })
+
+    it('uses mermaidRunOptions as JSON argument', () => {
+        const { uiCatalog, warns } = executeUiLoaded({
+            mermaidRunOptions: { querySelector: '.mermaid' },
+        })
+
+        strictEqual(warns.length, 0)
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(script.includes('mermaid.run({"querySelector":".mermaid"})'))
+    })
+
+    it('uses raw text override as run argument', () => {
+        const raw = '{ querySelector: ".mermaid", postRenderCallback: (id) => console.log(id) }'
+        const { uiCatalog, warns } = executeUiLoaded({
+            mermaidRunOptionsRawTextOverride: raw,
+        })
+
+        strictEqual(warns.length, 0)
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(script.includes(`mermaid.run(${raw})`))
+    })
+
+    it('prefers raw text override over mermaidRunOptions and warns once', () => {
+        const raw = '{ querySelector: ".mermaid" }'
+        const { uiCatalog, warns } = executeUiLoaded({
+            mermaidRunOptionsRawTextOverride: raw,
+            mermaidRunOptions: { querySelector: '.mermaid' },
+        })
+
+        strictEqual(warns.length, 1)
+        strictEqual(
+            warns[0],
+            'Both mermaidRunOptions and mermaidRunOptionsRawTextOverride are set. mermaidRunOptionsRawTextOverride is used.'
+        )
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(script.includes(`mermaid.run(${raw})`))
+        ok(!script.includes('mermaid.run({"querySelector":".mermaid"})'))
     })
 })

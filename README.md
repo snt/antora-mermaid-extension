@@ -72,18 +72,33 @@ antora:
       Make sure to convert the Mermaid config keys to snake case, e.g., `startOnLoad` -> `start_on_load` or `themeVariables` -> `theme_variables`.
       Refer to [the Antora docs](https://docs.antora.org/antora/latest/extend/configure-extension/#configuration-key-transformation) for details.
 
-If you have a special need to specify the argument to `mermaid.initialize(argument)`, use `mermaid_initialize_options_raw_text_override` instead of `mermaid_initialize_options`.
-Its value is placed between `mermaid.initialize(` and `)` as-is. So you would set `antora-playbook.yaml` like this:
+If you need to pass the argument to `mermaid.initialize()` as raw text rather than as a structured mapping, use `mermaid_initialize_options_raw_text_override` instead of `mermaid_initialize_options`.
+Its value is placed between `mermaid.initialize(` and `)` as-is, so it must be valid JSON. You must quote the entire string with single quotes to avoid being parsed as YAML.
+
+### Calling mermaid.run()
+
+By default, `mermaid.run()` is not called. To call it explicitly, use `mermaid_run_options`:
 
 ```yaml
 antora:
   extensions:
     - require: '@sntke/antora-mermaid-extension'
-      script_stem: header-scripts
-      mermaid_initialize_options_raw_text_override: '{"startOnLoad":true, "theme":"dark", "postRenderCallback": mermaidPostRender }'
+      mermaid_run_options:
+        query_selector: '.mermaid'
 ```
 
-Note: You must quote the entire JSON string with single quotes to avoid being parsed as JSON in YAML.
+The value is passed to `mermaid.run()` as a JSON-serialized argument. Make sure to convert keys to snake case as with `mermaid_initialize_options`.
+
+If you need to pass a value that cannot be expressed as JSON (e.g., a callback function), use `mermaid_run_options_raw_text_override` instead:
+
+```yaml
+antora:
+  extensions:
+    - require: '@sntke/antora-mermaid-extension'
+      mermaid_run_options_raw_text_override: '{ querySelector: ".mermaid", postRenderCallback: (id) => console.log(id) }'
+```
+
+Its value is placed between `mermaid.run(` and `)` as-is. If both `mermaid_run_options` and `mermaid_run_options_raw_text_override` are set, `mermaid_run_options_raw_text_override` takes precedence.
 
 ## Migration to 0.0.4 and newer
 
