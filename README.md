@@ -4,7 +4,7 @@
 
 This extension visualizes [Listing Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/listing-blocks/)
 and [Literal Blocks](https://docs.asciidoctor.org/asciidoc/latest/verbatim/literal-blocks/)
-of [Mermaid](https://mermaid-js.github.io/mermaid/#/) on HTML files.
+of [Mermaid](https://mermaid-js.github.io/mermaid/#/) on HTML files. You can test your diagram source at [mermaid.live](https://mermaid.live).
 
 ```asciidoc
 [mermaid]
@@ -58,7 +58,7 @@ Append following in your `antora-playbook.yaml`:
 antora:
   extensions:
     - require: '@sntke/antora-mermaid-extension' # <1>
-      mermaid_library_url: https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs # <2>
+      mermaid_library_url: https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs # <2> # minified + br encoded, only ~150k to download
       script_stem: header-scripts # <3>
       mermaid_initialize_options: # <4>
         start_on_load: true
@@ -102,7 +102,7 @@ Its value is placed between `mermaid.run(` and `)` as-is. If both `mermaid_run_o
 
 ## Migration to 0.0.4 and newer
 
-If you set `.antora.extensions[].mermaid_library_url` in `antora-playbook.yaml`, update the value to use `mermaid@10`.
+If you set `.antora.extensions[].mermaid_library_url` in `antora-playbook.yaml`, update the value to use `mermaid@11`.
 
-`antora-mermaid-extension@0.0.4` uses [`mermaid@10`](https://github.com/mermaid-js/mermaid/releases/tag/v10.0.0) which
-have dropped CJS support. 
+`antora-mermaid-extension@0.0.4` uses [`mermaid@11`](https://github.com/mermaid-js/mermaid/releases/tag/v11.0.0) which
+have dropped CJS support.
