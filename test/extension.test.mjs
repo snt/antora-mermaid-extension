@@ -86,6 +86,16 @@ const executeUiLoaded = (config) => {
     return { uiCatalog, warns }
 }
 
+describe('default configuration behavior', () => {
+    it('uses Mermaid v11 by default', () => {
+        const { uiCatalog } = executeUiLoaded({})
+
+        strictEqual(uiCatalog.addedFiles.length, 1)
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(script.includes("import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'"))
+    })
+})
+
 describe('mermaidInitializeOptionsRawTextOverride behavior', () => {
     it('uses raw text override as initialize argument', () => {
         const raw = '{ startOnLoad: false, securityLevel: "strict" }'
@@ -134,6 +144,25 @@ describe('mermaidInitializeOptionsRawTextOverride behavior', () => {
 
         const script = uiCatalog.addedFiles[0].contents.toString('utf8')
         ok(script.includes('mermaid.initialize({"startOnLoad":false,"securityLevel":"strict"});'))
+    })
+})
+
+describe('elkLibraryUrl behavior', () => {
+    it('does not add elk import when elkLibraryUrl is not set', () => {
+        const { uiCatalog } = executeUiLoaded({})
+
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(!script.includes('elkLayouts'))
+        ok(!script.includes('registerLayoutLoaders'))
+    })
+
+    it('adds elk import and registerLayoutLoaders when elkLibraryUrl is set', () => {
+        const elkUrl = 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0/dist/mermaid-layout-elk.esm.min.mjs'
+        const { uiCatalog } = executeUiLoaded({ elkLibraryUrl: elkUrl })
+
+        const script = uiCatalog.addedFiles[0].contents.toString('utf8')
+        ok(script.includes(`import elkLayouts from '${elkUrl}'`))
+        ok(script.includes('mermaid.registerLayoutLoaders(elkLayouts)'))
     })
 })
 
